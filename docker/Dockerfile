@@ -16,7 +16,9 @@ RUN apt-get update && \
     git \
     vim \
     wget \
-    build-essential
+    build-essential \ 
+    iproute2 \
+    iputils-ping
 
 # Install Python, and other requirements
 RUN apt-get update &&  \

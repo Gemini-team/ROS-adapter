@@ -7,7 +7,7 @@ import rospy
 import std_msgs.msg
 from sensor_msgs.msg import Image
 from sensor_msgs.msg import PointCloud2, PointField
-from ros_adapter.msg import RadarSpoke
+#from ros_adapter.msg import RadarSpoke
 
 from cv_bridge import CvBridge, CvBridgeError
 
@@ -94,35 +94,35 @@ class SensorStreaming(sensor_streaming_pb2_grpc.SensorStreamingServicer):
         return sensor_streaming_pb2.LidarStreamingResponse(success=True)
 
 
-    def StreamRadarSensor(self, request, context):
-        """
-        Takes in a gRPC RadarStreamingRequest containing
-        all the data needed to create and publish a RadarSpoke
-        ROS message.
-        """
+    #def StreamRadarSensor(self, request, context):
+        #"""
+        #Takes in a gRPC RadarStreamingRequest containing
+        #all the data needed to create and publish a RadarSpoke
+        #ROS message.
+        #"""
 
-        number_of_spokes = request.numSpokes
+        #number_of_spokes = request.numSpokes
 
-        for i in range(number_of_spokes):
+        #for i in range(number_of_spokes):
 
-            radar_spoke_msg = RadarSpoke()
+            #radar_spoke_msg = RadarSpoke()
 
             # Header
-            header = std_msgs.msg.Header()
-            header.frame_id = "milliampere_radar"
-            header.stamp = rospy.Time.from_sec(request.timeInSeconds[i])
-            radar_spoke_msg.azimuth = request.azimuth[i]
-            radar_spoke_msg.intensity = request.radarSpokes[i * request.numSamples : i * request.numSamples + request.numSamples]
+            #header = std_msgs.msg.Header()
+            #header.frame_id = "milliampere_radar"
+            #header.stamp = rospy.Time.from_sec(request.timeInSeconds[i])
+            #radar_spoke_msg.azimuth = request.azimuth[i]
+            #radar_spoke_msg.intensity = request.radarSpokes[i * request.numSamples : i * request.numSamples + request.numSamples]
 
-            radar_spoke_msg.range_start = request.rangeStart
-            radar_spoke_msg.range_increment = request.rangeIncrement
-            radar_spoke_msg.min_intensity = request.minIntensity
-            radar_spoke_msg.max_intensity = request.maxIntensity
-            radar_spoke_msg.num_samples = request.numSamples
+            #radar_spoke_msg.range_start = request.rangeStart
+            #radar_spoke_msg.range_increment = request.rangeIncrement
+            #radar_spoke_msg.min_intensity = request.minIntensity
+            #radar_spoke_msg.max_intensity = request.maxIntensity
+            #radar_spoke_msg.num_samples = request.numSamples
 
-            self.radar_pub.publish(radar_spoke_msg)
+            #self.radar_pub.publish(radar_spoke_msg)
 
-        return sensor_streaming_pb2.RadarStreamingResponse(success=True)
+        #return sensor_streaming_pb2.RadarStreamingResponse(success=True)
 
 
 def serve(camera_pubs, lidar_pub, radar_pub):
@@ -153,7 +153,7 @@ if __name__ == '__main__':
 
     # TODO: Change the message type to be published
     radar_pub = rospy.Publisher('radar/driver/spokes', 
-                                RadarSpoke, 
+                                Image, 
                                 queue_size=10)
 
     rospy.init_node('syntetic_data', anonymous=True)
